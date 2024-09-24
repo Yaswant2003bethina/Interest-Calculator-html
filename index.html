@@ -13,13 +13,13 @@
         }
 
         .container {
-            max-width: 500px;
+            max-width: 100%;
             margin: 50px auto;
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            position: relative; /* Added for logo positioning */
+            position: relative;
         }
 
         h2 {
@@ -65,17 +65,17 @@
         }
 
         .logo {
-            width: 120px; /* Adjust size */
+            width: 80px;
             height: auto;
             position: absolute;
-            top: 10px; /* Adjusted */
-            right: 20px; /* Adjusted */
+            top: 20px;
+            right: 20px;
         }
 
-        /* Media Query for small screens */
+        /* Responsive adjustments */
         @media (max-width: 600px) {
             .container {
-                max-width: 90%; /* Take up more space on smaller screens */
+                max-width: 90%;
                 padding: 10px;
             }
 
@@ -85,24 +85,23 @@
             }
 
             .logo {
-                width: 50px; /* Smaller logo on smaller screens */
+                width: 50px;
                 top: 15px;
                 right: 10px;
             }
 
             h2 {
-                font-size: 24px; /* Slightly smaller font */
+                font-size: 24px;
             }
 
             input[type="number"] {
-                font-size: 14px; /* Adjust font size for smaller screens */
+                font-size: 14px;
             }
         }
 
-        /* Additional media queries for larger screens or different layouts */
         @media (min-width: 800px) {
             .container {
-                max-width: 700px; /* Increase the width for larger screens */
+                max-width: 700px;
             }
 
             h2 {
@@ -144,29 +143,21 @@
 
     <script>
         function calculate() {
-            // Get inputs
             let principal = parseFloat(document.getElementById('principal').value);
             let interestPer100 = parseFloat(document.getElementById('interest').value);
             let timeYears = parseFloat(document.getElementById('time_years').value) || 0;
             let timeMonths = parseFloat(document.getElementById('time_months').value) || 0;
             let timeDays = parseFloat(document.getElementById('time_days').value) || 0;
 
-            // Check for invalid input
             if (isNaN(principal) || isNaN(interestPer100)) {
                 document.getElementById('results').innerHTML = "<p style='color: red;'>Please enter valid numeric values for principal and interest.</p>";
                 return;
             }
 
-            // Convert time to years
             let totalTimeInYears = timeYears + (timeMonths / 12) + (timeDays / 365);
-
-            // Calculate total interest
             let totalInterest = (principal / 100) * interestPer100 * 12 * totalTimeInYears;
-
-            // Calculate total amount
             let totalAmount = principal + totalInterest;
 
-            // Display the results
             document.getElementById('results').innerHTML = `
                 <p>Total Interest (మొత్తం వడ్డీ): ₹${totalInterest.toFixed(2)}</p>
                 <p>Total Amount (మొత్తం): ₹${totalAmount.toFixed(2)}</p>
