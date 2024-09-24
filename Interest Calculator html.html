@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interest Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .results {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Interest Calculator</h2>
+        
+        <label for="principal">Principal Amount (in Rupees)</label>
+        <input type="number" id="principal" placeholder="Enter principal amount" required>
+        
+        <label for="interest">Interest per 100 Rupees (per Year)</label>
+        <input type="number" id="interest" placeholder="Enter interest per 100 rupees" required>
+        
+        <label for="time_years">Time in Years</label>
+        <input type="number" id="time_years" placeholder="Enter time in years" min="0">
+        
+        <label for="time_months">Time in Months</label>
+        <input type="number" id="time_months" placeholder="Enter time in months" min="0">
+        
+        <label for="time_days">Time in Days</label>
+        <input type="number" id="time_days" placeholder="Enter time in days" min="0">
+        
+        <button class="btn" onclick="calculate()">Calculate</button>
+        
+        <div class="results" id="results"></div>
+    </div>
+
+    <script>
+        function calculate() {
+            // Get inputs
+            let principal = parseFloat(document.getElementById('principal').value);
+            let interestPer100 = parseFloat(document.getElementById('interest').value);
+            let timeYears = parseFloat(document.getElementById('time_years').value) || 0;
+            let timeMonths = parseFloat(document.getElementById('time_months').value) || 0;
+            let timeDays = parseFloat(document.getElementById('time_days').value) || 0;
+
+            // Check for invalid input
+            if (isNaN(principal) || isNaN(interestPer100)) {
+                document.getElementById('results').innerHTML = "<p style='color: red;'>Please enter valid numeric values for principal and interest.</p>";
+                return;
+            }
+
+            // Convert time to years
+            let totalTimeInYears = timeYears + (timeMonths / 12) + (timeDays / 365);
+
+            // Calculate total interest
+            let totalInterest = (principal / 100) * interestPer100 * 12 * totalTimeInYears;
+
+            // Calculate total amount
+            let totalAmount = principal + totalInterest;
+
+            // Display the results
+            document.getElementById('results').innerHTML = `
+                <p>Total Interest: ₹${totalInterest.toFixed(2)}</p>
+                <p>Total Amount (Principal + Interest): ₹${totalAmount.toFixed(2)}</p>
+            `;
+        }
+    </script>
+
+</body>
+</html>
