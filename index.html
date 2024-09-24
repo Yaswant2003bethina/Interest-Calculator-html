@@ -73,19 +73,19 @@
 
         <h2>Interest Calculator</h2>
         
-        <label for="principal">Principal Amount (in Rupees)</label>
+        <label for="principal">Principal Amount (అసలు)</label>
         <input type="number" id="principal" placeholder="Enter principal amount" required>
         
-        <label for="interest">Interest per 100 Rupees (per Year)</label>
+        <label for="interest">Interest per 100 Rupees (వడ్డి)</label>
         <input type="number" id="interest" placeholder="Enter interest per 100 rupees" required>
         
-        <label for="time_years">Time in Years</label>
+        <label for="time_years">Time in Years (సంవత్సరాలు)</label>
         <input type="number" id="time_years" placeholder="Enter time in years" min="0">
         
-        <label for="time_months">Time in Months</label>
+        <label for="time_months">Time in Months (నెలలు)</label>
         <input type="number" id="time_months" placeholder="Enter time in months" min="0">
         
-        <label for="time_days">Time in Days</label>
+        <label for="time_days">Time in Days (రోజులు)</label>
         <input type="number" id="time_days" placeholder="Enter time in days" min="0">
         
         <button class="btn" onclick="calculate()">Calculate</button>
@@ -119,8 +119,8 @@
 
             // Display the results
             document.getElementById('results').innerHTML = `
-                <p>Total Interest: ₹${totalInterest.toFixed(2)}</p>
-                <p>Total Amount (Principal + Interest): ₹${totalAmount.toFixed(2)}</p>
+                <p>Total Interest (మొత్తం వడ్డీ): ₹${totalInterest.toFixed(2)}</p>
+                <p>Total Amount (మొత్తం): ₹${totalAmount.toFixed(2)}</p>
             `;
         }
     </script>
