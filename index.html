@@ -33,7 +33,7 @@
             display: block;
         }
 
-        input[type="number"] {
+        input[type="number"], input[type="date"] {
             width: 100%;
             padding: 8px;
             margin: 10px 0;
@@ -94,7 +94,7 @@
                 font-size: 24px;
             }
 
-            input[type="number"] {
+            input[type="number"], input[type="date"] {
                 font-size: 14px;
             }
         }
@@ -108,7 +108,7 @@
                 font-size: 28px;
             }
 
-            input[type="number"] {
+            input[type="number"], input[type="date"] {
                 font-size: 18px;
             }
         }
@@ -127,14 +127,11 @@
         <label for="interest">Interest per 100 Rupees (వడ్డి)</label>
         <input type="number" id="interest" placeholder="Enter interest per 100 rupees" required>
         
-        <label for="time_years">Time in Years (సంవత్సరాలు)</label>
-        <input type="number" id="time_years" placeholder="Enter time in years" min="0">
+        <label for="start_date">Money Taken Date (తేదీ తీసుకున్నది)</label>
+        <input type="date" id="start_date" required>
         
-        <label for="time_months">Time in Months (నెలలు)</label>
-        <input type="number" id="time_months" placeholder="Enter time in months" min="0">
-        
-        <label for="time_days">Time in Days (రోజులు)</label>
-        <input type="number" id="time_days" placeholder="Enter time in days" min="0">
+        <label for="end_date">Money Repaid Date (తేదీ చెల్లించబడింది)</label>
+        <input type="date" id="end_date" required>
         
         <button class="btn" onclick="calculate()">Calculate</button>
         
@@ -145,17 +142,27 @@
         function calculate() {
             let principal = parseFloat(document.getElementById('principal').value);
             let interestPer100 = parseFloat(document.getElementById('interest').value);
-            let timeYears = parseFloat(document.getElementById('time_years').value) || 0;
-            let timeMonths = parseFloat(document.getElementById('time_months').value) || 0;
-            let timeDays = parseFloat(document.getElementById('time_days').value) || 0;
+            let startDate = new Date(document.getElementById('start_date').value);
+            let endDate = new Date(document.getElementById('end_date').value);
 
-            if (isNaN(principal) || isNaN(interestPer100)) {
-                document.getElementById('results').innerHTML = "<p style='color: red;'>Please enter valid numeric values for principal and interest.</p>";
+            if (isNaN(principal) || isNaN(interestPer100) || isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                document.getElementById('results').innerHTML = "<p style='color: red;'>Please enter valid values for all fields.</p>";
                 return;
             }
 
-            let totalTimeInYears = timeYears + (timeMonths / 12) + (timeDays / 365);
-            let totalInterest = (principal / 100) * interestPer100 * 12 * totalTimeInYears;
+            if (endDate <= startDate) {
+                document.getElementById('results').innerHTML = "<p style='color: red;'>End date must be later than start date.</p>";
+                return;
+            }
+
+            // Calculate the difference in time between the two dates (in milliseconds)
+            let timeDifference = endDate.getTime() - startDate.getTime();
+
+            // Convert the time difference into years (365 days)
+            let timeInYears = timeDifference / (1000 * 60 * 60 * 24 * 365);
+
+            // Calculate total interest and total amount
+            let totalInterest = (principal / 100) * interestPer100*12 * timeInYears;
             let totalAmount = principal + totalInterest;
 
             document.getElementById('results').innerHTML = `
