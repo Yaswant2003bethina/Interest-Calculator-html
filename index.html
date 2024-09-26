@@ -188,14 +188,25 @@
             // Calculate the difference in time between the two dates (in milliseconds)
             let timeDifference = endDate.getTime() - startDate.getTime();
 
-            // Convert the time difference into years (365 days)
-            let timeInYears = timeDifference / (1000 * 60 * 60 * 24 * 365);
+            // Convert the time difference into days
+            let totalDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+            // Calculate years, months, and days
+            let years = Math.floor(totalDays / 365);
+            let remainingDaysAfterYears = totalDays % 365;
+            let months = Math.floor(remainingDaysAfterYears / 30);
+            let days = remainingDaysAfterYears % 30;
+
+            // Convert the time difference into years (for interest calculation)
+            let timeInYears = totalDays / 365;
 
             // Calculate total interest and total amount
-            let totalInterest = (principal / 100) * interestPer100 *12 * timeInYears;
+            let totalInterest = (principal / 100) * interestPer100 * 12 * timeInYears;
             let totalAmount = principal + totalInterest;
 
             document.getElementById('results').innerHTML = `
+                <p>Time Period (కాల వ్యవధి): ${years} Years(సంవత్సరాలు), ${months} Months(నెలల), ${days} Days(రోజులు
+)</p>
                 <p>Total Interest (మొత్తం వడ్డీ): ₹${totalInterest.toFixed(2)}</p>
                 <p>Total Amount (మొత్తం): ₹${totalAmount.toFixed(2)}</p>
             `;
