@@ -33,7 +33,7 @@
             display: block;
         }
 
-        input[type="number"], input[type="date"] {
+        input[type="number"] {
             width: 100%;
             padding: 8px;
             margin: 10px 0;
@@ -72,6 +72,16 @@
             right: 20px;
         }
 
+        .date-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .date-input input {
+            width: calc(33% - 10px);
+            text-align: center;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 600px) {
             .container {
@@ -94,7 +104,7 @@
                 font-size: 24px;
             }
 
-            input[type="number"], input[type="date"] {
+            input[type="number"] {
                 font-size: 14px;
             }
         }
@@ -108,7 +118,7 @@
                 font-size: 28px;
             }
 
-            input[type="number"], input[type="date"] {
+            input[type="number"] {
                 font-size: 18px;
             }
         }
@@ -127,11 +137,19 @@
         <label for="interest">Interest per 100 Rupees (వడ్డి)</label>
         <input type="number" id="interest" placeholder="Enter interest per 100 rupees" required>
         
-        <label for="start_date">Money Taken Date (తేదీ తీసుకున్నది)</label>
-        <input type="date" id="start_date" required>
+        <label>Money Taken Date (తేదీ తీసుకున్నది)</label>
+        <div class="date-input">
+            <input type="number" id="start_day" placeholder="Day" min="1" max="31" required>
+            <input type="number" id="start_month" placeholder="Month" min="1" max="12" required>
+            <input type="number" id="start_year" placeholder="Year" required>
+        </div>
         
-        <label for="end_date">Money Repaid Date (తేదీ చెల్లించబడింది)</label>
-        <input type="date" id="end_date" required>
+        <label>Money Repaid Date (తేదీ చెల్లించబడింది)</label>
+        <div class="date-input">
+            <input type="number" id="end_day" placeholder="Day" min="1" max="31" required>
+            <input type="number" id="end_month" placeholder="Month" min="1" max="12" required>
+            <input type="number" id="end_year" placeholder="Year" required>
+        </div>
         
         <button class="btn" onclick="calculate()">Calculate</button>
         
@@ -142,8 +160,20 @@
         function calculate() {
             let principal = parseFloat(document.getElementById('principal').value);
             let interestPer100 = parseFloat(document.getElementById('interest').value);
-            let startDate = new Date(document.getElementById('start_date').value);
-            let endDate = new Date(document.getElementById('end_date').value);
+
+            // Get start date values
+            let startDay = parseInt(document.getElementById('start_day').value);
+            let startMonth = parseInt(document.getElementById('start_month').value) - 1; // Months are 0-indexed in JS
+            let startYear = parseInt(document.getElementById('start_year').value);
+
+            // Get end date values
+            let endDay = parseInt(document.getElementById('end_day').value);
+            let endMonth = parseInt(document.getElementById('end_month').value) - 1; // Months are 0-indexed in JS
+            let endYear = parseInt(document.getElementById('end_year').value);
+
+            // Create date objects
+            let startDate = new Date(startYear, startMonth, startDay);
+            let endDate = new Date(endYear, endMonth, endDay);
 
             if (isNaN(principal) || isNaN(interestPer100) || isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
                 document.getElementById('results').innerHTML = "<p style='color: red;'>Please enter valid values for all fields.</p>";
@@ -162,7 +192,7 @@
             let timeInYears = timeDifference / (1000 * 60 * 60 * 24 * 365);
 
             // Calculate total interest and total amount
-            let totalInterest = (principal / 100) * interestPer100*12 * timeInYears;
+            let totalInterest = (principal / 100) * interestPer100 *12 * timeInYears;
             let totalAmount = principal + totalInterest;
 
             document.getElementById('results').innerHTML = `
